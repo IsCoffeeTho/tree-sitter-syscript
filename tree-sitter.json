@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "syscript",
+      "camelcase": "Syscript",
+      "title": "Syscript",
+      "scope": "source.syscript",
+      "file-types": [
+        "syscript"
+      ],
+      "injection-regex": "^syscript$",
+      "class-name": "TreeSitterSyscript"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Syscript grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Aaron Menadue"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-syscript"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
