@@ -503,6 +503,60 @@
     }
   },
   {
+    "type": "ref_parenthesis_enclosed",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessor",
+          "named": true
+        },
+        {
+          "type": "func_call",
+          "named": true
+        },
+        {
+          "type": "parenthesis_enclosed",
+          "named": true
+        },
+        {
+          "type": "sub_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ref_primitive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessor",
+          "named": true
+        },
+        {
+          "type": "func_call",
+          "named": true
+        },
+        {
+          "type": "primitive",
+          "named": true
+        },
+        {
+          "type": "sub_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "reference",
     "named": true,
     "fields": {},
@@ -558,19 +612,15 @@
       "required": true,
       "types": [
         {
-          "type": "parenthesis_enclosed",
+          "type": "ref_parenthesis_enclosed",
           "named": true
         },
         {
-          "type": "primitive",
+          "type": "ref_primitive",
           "named": true
         },
         {
           "type": "reference",
-          "named": true
-        },
-        {
-          "type": "sub_reference",
           "named": true
         },
         {

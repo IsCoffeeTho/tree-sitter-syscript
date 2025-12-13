@@ -11,9 +11,10 @@ let _: _ = 0;
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
                 (number_literal
-                    (numeric))))))))
+                    (numeric)))))))))
 ===
 Zero float
 ===
@@ -27,11 +28,12 @@ let _: _ = 0.0;
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
                 (number_literal
                   (decimal_number
                   	(numeric)
-                    (numeric)))))))))
+                    (numeric))))))))))
 ===
 Zero hex
 ===
@@ -45,9 +47,10 @@ let _: _ = 0x0;
             (identifier))
         (value
         	(singleton
+         (ref_primitive
               (primitive
                 (number_literal
-                  (hex_number))))))))
+                  (hex_number)))))))))
 ===
 Zero binary
 ===
@@ -61,6 +64,7 @@ let _: _ = 0b0;
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
                 (number_literal
-                  (binary_number))))))))
+                  (binary_number)))))))))

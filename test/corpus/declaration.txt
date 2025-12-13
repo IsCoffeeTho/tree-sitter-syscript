@@ -25,20 +25,22 @@ let variable: string = "";
             	(identifier))
             (value
 	            (singleton
+					 (ref_primitive
 	             	(primitive
-	                	(string_literal)))))))
+	                	(string_literal))))))))
 ===
 const declaration
 ===
 const variable: string = "";
 ---
-(source_file 
-    (declaration
-       	(const_declaration
-            (identifier)
-            (type_signature
-              (identifier))
-            (value
-	            (singleton
-	              (primitive
-	                (string_literal)))))))
+(source_file
+	(declaration
+		(const_declaration
+			(identifier)
+			(type_signature
+				(identifier))
+			(value
+				(singleton
+					(ref_primitive
+						(primitive
+							(string_literal))))))))

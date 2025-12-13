@@ -11,8 +11,9 @@ let _: _ = "";
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
-                (string_literal)))))))
+                (string_literal))))))))
 ===
 filled string
 ===
@@ -26,8 +27,9 @@ let _: _ = "value";
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
-                (string_literal)))))))
+                (string_literal))))))))
 ===
 escaped quote string
 ===
@@ -41,5 +43,6 @@ let _: _ = "escaping the \" you need to add the \\ symbol: \\\" ";
             (identifier))
         (value
         	(singleton
+          (ref_primitive
               (primitive
-                (string_literal)))))))
+                (string_literal))))))))

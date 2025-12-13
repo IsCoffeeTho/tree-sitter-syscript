@@ -69,6 +69,7 @@ module.exports = grammar({
 
 		value: $ => prec.left(1, seq($.singleton, repeat(seq($.operator, $.singleton)))),
 		value_list: $ => seq($.value, repeat(seq(",", $.value))),
+		parenthesis_enclosed: $ => seq("(", $.value, ")"),
 
 		singleton: $ =>
 			prec.left(
@@ -76,17 +77,23 @@ module.exports = grammar({
 				seq(
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
-					choice($.parenthesis_enclosed, $.primitive, $.reference),
-					repeat($.sub_reference),
+					choice(
+   			    $.ref_parenthesis_enclosed,
+   					$.ref_primitive,
+						$.reference
+					),
 					optional(choice("++", "--")),
 				),
 			),
 
-		parenthesis_enclosed: $ => seq("(", $.value, ")"),
 
 		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
+    ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
+    ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
+		
 		accessor: $ => seq("[", $.value, "]"),
 		func_call: $ => seq("(", optional($.value_list), ")"),
+		
 		sub_reference: $ => seq(".", $.reference),
 
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
