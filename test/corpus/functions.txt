@@ -5,9 +5,10 @@ fn main() {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list)
-		(code_block)))
+		(method
+			(identifier)
+			(param_list)
+			(code_block))))
 ===
 one parameter function
 ===
@@ -15,13 +16,14 @@ fn test(param: uint32) {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier))))
-		(code_block)))
+		(method
+			(identifier)
+			(param_list
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier))))
+			(code_block))))
 ===
 two parameter function
 ===
@@ -29,17 +31,18 @@ fn main(argc: uint32, argv: string[]) {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier)))
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier))))
-		(code_block)))
+		(method
+			(identifier)
+			(param_list
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier)))
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier))))
+			(code_block))))
 ===
 function w/ return type
 ===
@@ -47,11 +50,12 @@ fn main(): uint32 {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list)
-		(type_signature
-			(identifier))
-		(code_block)))
+		(method
+			(identifier)
+			(param_list)
+			(type_signature
+				(identifier))
+			(code_block))))
 ===
 one parameter function w/ return type
 ===
@@ -59,15 +63,16 @@ fn test(param: uint32): uint32 {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier))))
-		(type_signature
-			(identifier))
-		(code_block)))
+		(method
+			(identifier)
+			(param_list
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier))))
+			(type_signature
+				(identifier))
+			(code_block))))
 ===
 two parameter function w/ return type
 ===
@@ -75,19 +80,20 @@ fn main(argc: uint32, argv: string[]): uint32 {}
 ---
 (source_file
 	(function
-		(identifier)
-		(param_list
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier)))
-			(parameter
-				(identifier)
-				(type_signature
-					(identifier))))
-		(type_signature
-			(identifier))
-		(code_block)))
+		(method
+			(identifier)
+			(param_list
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier)))
+				(parameter
+					(identifier)
+					(type_signature
+						(identifier))))
+			(type_signature
+				(identifier))
+			(code_block))))
 ===
 one variadic parameter function
 ===
@@ -95,6 +101,7 @@ fn test(...param: uint32[]): uint32 {}
 ---
 (source_file
 	(function
+		(method
 		(identifier)
 		(param_list
 			(parameter
@@ -103,7 +110,7 @@ fn test(...param: uint32[]): uint32 {}
 					(identifier))))
 		(type_signature
 			(identifier))
-		(code_block)))
+		(code_block))))
 ===
 two parameter function w/ variadic argument
 ===
@@ -111,6 +118,7 @@ fn main(argc: uint32, ...argv: string[]): uint32 {}
 ---
 (source_file
 	(function
+		(method
 		(identifier)
 		(param_list
 			(parameter
@@ -123,4 +131,4 @@ fn main(argc: uint32, ...argv: string[]): uint32 {}
 					(identifier))))
 		(type_signature
 			(identifier))
-		(code_block)))
+		(code_block))))

@@ -10,24 +10,26 @@
 module.exports = grammar({
 	name: "syscript",
 
-	extras: $ => [/\s/, $.comments],
+	extras: $ => [/\s/, $.comment],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $._class, $.typedef))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.comment, $.function, $.declaration, $.struct, $._class, $.typedef))),
 
 		shebang: $ => seq("#!", /.*/),
 
-		comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
+		comment: $ => choice($.single_line_comment, $.multi_line_comment),
+		single_line_comment: $ => token(seq("//", /.*/)),
+    multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
 
 		struct: $ => seq("struct", $.identifier, "{", repeat($.property), "}"),
 		_class: $ => seq("class", $.identifier, "{", repeat(choice($.property, $.method)), "}"),
-		
-    property: $ => seq($.identifier, ":", $.type_signature, ";"),
-    
-    typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
+
+		property: $ => seq($.identifier, ":", $.type_signature, ";"),
+
+		typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
 
 		function: $ => seq("fn", $.method),
-		method: $ => seq($.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
+		method: $ => seq($.identifier, $.param_list, optional(seq(":", choice($.type_signature, "noreturn"))), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
 		parameter: $ => seq(optional("..."), $.identifier, ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
@@ -35,7 +37,7 @@ module.exports = grammar({
 		declaration: $ => seq(choice($.let_declaration, $.const_declaration), ";"),
 		let_declaration: $ => seq("let", field("name", $.identifier), ":", field("type", $.type_signature), optional(seq("=", field("value", $.value)))),
 		const_declaration: $ => seq("const", field("name", $.identifier), ":", field("type", $.type_signature), "=", field("value", $.value)),
-		
+
 		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";")),
 
 		return_statement: $ => seq("return", optional($.value)),
@@ -58,7 +60,8 @@ module.exports = grammar({
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
 					choice($.parenthesis_enclosed, $.primitive, $.identifier),
-					repeat(choice($.accessor, $.func_call, $.sub_reference)),
+					repeat(choice($.accessor, $.func_call)),
+					optional($.sub_reference),
 					optional(choice("++", "--")),
 				),
 			),
@@ -66,7 +69,7 @@ module.exports = grammar({
 		parenthesis_enclosed: $ => seq("(", $.value, ")"),
 		accessor: $ => seq("[", $.value, "]"),
 		func_call: $ => seq("(", optional($.value_list), ")"),
-		sub_reference: $ => seq(".", $.identifier),
+		sub_reference: $ => prec.left(2, seq(".", $.identifier, repeat(choice($.accessor, $.func_call, $.sub_reference)))),
 
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
@@ -79,7 +82,7 @@ module.exports = grammar({
 		hex_number: $ => /0x[0-9a-fA-F]*/,
 		binary_number: $ => /0b[01]*/,
 
-		type_signature: $ => seq($.identifier, repeat("[]")),
+		type_signature: $ => seq($.identifier, optional("[]")),
 		type_cast: $ => seq("<", $.type_signature, ">"),
 
 		operator: $ => choice($.logical_op, $.comparative_op, $.arithmetic_op, $.assignment_op),
