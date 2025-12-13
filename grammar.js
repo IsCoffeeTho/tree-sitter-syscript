@@ -76,16 +76,18 @@ module.exports = grammar({
 				seq(
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
-					choice($.parenthesis_enclosed, $.primitive, $.identifier),
-					repeat(choice($.accessor, $.func_call, $.sub_reference)),
+					choice($.parenthesis_enclosed, $.primitive, $.reference),
+					repeat($.sub_reference),
 					optional(choice("++", "--")),
 				),
 			),
 
 		parenthesis_enclosed: $ => seq("(", $.value, ")"),
+
+		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
 		accessor: $ => seq("[", $.value, "]"),
 		func_call: $ => seq("(", optional($.value_list), ")"),
-		sub_reference: $ => seq(".", $.identifier),
+		sub_reference: $ => seq(".", $.reference),
 
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
