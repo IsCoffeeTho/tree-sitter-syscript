@@ -83,23 +83,6 @@
         }
       ]
     },
-    "_multi_line_comment": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "/*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
-        },
-        {
-          "type": "STRING",
-          "value": "*/"
-        }
-      ]
-    },
     "function": {
       "type": "SEQ",
       "members": [
@@ -257,6 +240,10 @@
               "members": [
                 {
                   "type": "SYMBOL",
+                  "name": "return_statement"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "control_flow"
                 },
                 {
@@ -268,6 +255,27 @@
             {
               "type": "STRING",
               "value": ";"
+            }
+          ]
+        }
+      ]
+    },
+    "return_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "return"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "value"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }

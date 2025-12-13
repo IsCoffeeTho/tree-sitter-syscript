@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-/// <reference types="tree-sitter-cli/dsl" />
+/// <reference types="tree-`sitter-cli/dsl" />
 // @ts-check
 
 module.exports = grammar({
@@ -18,15 +18,15 @@ module.exports = grammar({
 		shebang: $ => seq("#!", /.*/),
 
 		_comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
-		_multi_line_comment: $ => seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/"),
 
 		function: $ => seq("fn", $.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
 		parameter: $ => seq($.identifier, ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
 
-		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.control_flow, $.value), ";")),
+		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";")),
 
+		return_statement: $ => seq("return", optional($.value)),
 		control_flow: $ => choice("break", "continue"),
 
 		_routine: $ => choice($.code_block, $.statement),
