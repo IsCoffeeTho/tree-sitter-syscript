@@ -95,7 +95,8 @@ module.exports = grammar({
 		
 		sub_reference: $ => seq(".", $.reference),
 
-		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, "this", "super"),
+		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, $.self_ref_literal),
+		self_ref_literal: $ => choice("this", "super"),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
 		boolean_literal: $ => choice("true", "false"),
 		char_literal: $ => seq("'", token(/([^'\n]|\\')*/), "'"),

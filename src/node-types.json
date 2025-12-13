@@ -477,6 +477,10 @@
           "named": true
         },
         {
+          "type": "self_ref_literal",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         }
@@ -597,6 +601,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "self_ref_literal",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "shebang",
@@ -1137,6 +1146,14 @@
   },
   {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "super",
+    "named": false
+  },
+  {
+    "type": "this",
     "named": false
   },
   {
