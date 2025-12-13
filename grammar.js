@@ -10,17 +10,17 @@
 module.exports = grammar({
 	name: "syscript",
 
-	extras: $ => [/\s/, $._comments],
+	extras: $ => [/\s/, $.comments],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $.class, $.typedef))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $._class, $.typedef))),
 
 		shebang: $ => seq("#!", /.*/),
 
-		_comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
+		comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
 
 		struct: $ => seq("struct", $.identifier, "{", repeat($.property), "}"),
-		class: $ => seq("class", $.identifier, "{", repeat(choice($.property, $.method)), "}"),
+		_class: $ => seq("class", $.identifier, "{", repeat(choice($.property, $.method)), "}"),
 		
     property: $ => seq($.identifier, ":", $.type_signature, ";"),
     
