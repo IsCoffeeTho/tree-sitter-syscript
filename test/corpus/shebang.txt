@@ -1,0 +1,40 @@
+===
+shebang
+===
+#!/bin/bash sysc
+---
+(source_file
+	(shebang))
+===
+code in shebang
+===
+#! let _:_;
+---
+(source_file
+	(shebang))
+===
+code outside shebang
+===
+#!/bin/bash sysc
+let _:_;
+---
+(source_file
+	(shebang)
+      (declaration
+        (let_declaration
+          (identifier)
+          (type_signature
+            (identifier)))))
+===
+code inside and outside shebang
+===
+#! let _:_;
+let _:_;
+---
+(source_file
+	(shebang)
+      (declaration
+        (let_declaration
+          (identifier)
+          (type_signature
+            (identifier)))))

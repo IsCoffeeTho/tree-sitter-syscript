@@ -1,0 +1,44 @@
+===
+let declaration
+===
+let variable: string;
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        )
+    )
+)
+===
+let declaration with value
+===
+let variable: string = "";
+---
+(source_file 
+    (declaration
+       	(let_declaration
+            (identifier)
+            (type_signature
+            	(identifier))
+            (value
+	            (singleton
+	             	(primitive
+	                	(string_literal)))))))
+===
+const declaration
+===
+const variable: string = "";
+---
+(source_file 
+    (declaration
+       	(const_declaration
+            (identifier)
+            (type_signature
+              (identifier))
+            (value
+	            (singleton
+	              (primitive
+	                (string_literal)))))))

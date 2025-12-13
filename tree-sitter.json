@@ -9,7 +9,7 @@
       "file-types": [
         "syscript"
       ],
-      "injection-regex": "^syscript$",
+      "injection-regex": "^sy$",
       "class-name": "TreeSitterSyscript"
     }
   ],

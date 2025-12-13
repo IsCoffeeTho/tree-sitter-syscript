@@ -13,68 +13,75 @@ module.exports = grammar({
 	extras: $ => [/\s/, $._comments],
 
 	rules: {
-		source_file: $ => seq(optional($._shebang), repeat($._doc_level)),
-		_shebang: $ => seq("#!", /.*\n/),
-		_doc_level: $ => choice($._func_def, $._declaration),
-		_func_def: $ =>
-			seq(
-				"fn",
-				$._identifier,
-				"(",
-				optional(seq($._identifier, ":", $._type_sig, optional(repeat(seq(",", $._identifier, ":", $._type_sig))))),
-				")",
-				optional(seq(":", $._type_sig)),
-				$._codeblock,
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration))),
+
+		shebang: $ => seq("#!", /.*/),
+
+		_comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
+		_multi_line_comment: $ => seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/"),
+
+		function: $ => seq("fn", $.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
+		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
+		parameter: $ => seq($.identifier, ":", $.type_signature),
+		code_block: $ => seq("{", repeat($.statement), "}"),
+
+		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.control_flow, $.value), ";")),
+
+		control_flow: $ => choice("break", "continue"),
+
+		_routine: $ => choice($.code_block, $.statement),
+		if_statement: $ => prec.right(1, seq("if", $.parenthesis_enclosed, $._routine, optional(seq("else", $._routine)))),
+		while_loop: $ => seq("while", $.parenthesis_enclosed, $._routine),
+
+		for_loop: $ => seq("for", $._for_loop_parenthesis, $._routine),
+		_for_loop_parenthesis: $ => seq("(", optional($.let_declaration), ";", optional($.value), ";", optional($.value), ")"),
+
+		declaration: $ => seq(choice($.let_declaration, $.const_declaration), ";"),
+		let_declaration: $ => seq("let", field("name", $.identifier), ":", field("type", $.type_signature), optional(seq("=", field("value", $.value)))),
+		const_declaration: $ => seq("const", field("name", $.identifier), ":", field("type", $.type_signature), "=", field("value", $.value)),
+
+		value: $ => prec.left(1, seq($.singleton, repeat(seq($.operator, $.singleton)))),
+		value_list: $ => seq($.value, repeat(seq(",", $.value))),
+
+		singleton: $ =>
+			prec.left(
+				1,
+				seq(
+					optional($.type_cast),
+					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
+					choice($.parenthesis_enclosed, $.primitive, $.identifier),
+					repeat(choice($.accessor, $.func_call, $.sub_reference)),
+					optional(choice("++", "--")),
+				),
 			),
 
-		_codeblock: $ => seq("{", optional(repeat($._statement)), "}"),
-		_statement: $ => choice($._if_statement, $._for_loop, $._while_loop),
-		_if_statement: $ =>
-			prec.left(1, seq("if", $._parenth_enclosed, choice($._codeblock, $._statement), optional(seq("else", choice($._codeblock, $._statement))))),
-		_while_loop: $ => seq("while", $._parenth_enclosed, choice($._codeblock, $._statement)),
-		_for_loop: $ => seq("for", "(", choice($._declaration, ";"), optional($._value), ";", optional($._value), ")", choice($._codeblock, $._statement)),
+		parenthesis_enclosed: $ => seq("(", $.value, ")"),
+		accessor: $ => seq("[", $.value, "]"),
+		func_call: $ => seq("(", optional($.value_list), ")"),
+		sub_reference: $ => seq(".", $.identifier),
 
-		_struct: $ => seq("struct", $._identifier, "{", optional(repeat(seq($._identifier, ":", $._type_sig, ";"))), "}"),
+		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
+		array_literal: $ => seq("[", optional($.value_list), "]"),
+		boolean_literal: $ => choice("true", "false"),
+		char_literal: $ => seq("'", token(/[^']*(\\[^']*)*/), "'"),
+		string_literal: $ => seq('"', token(/[^"]*(\\[^"]*)*/), '"'),
+		number_literal: $ => choice($.decimal_number, $.hex_number, $.binary_number),
 
-		_declaration: $ => seq(choice("const", "let"), $._identifier, ":", $._type_sig, optional(seq("=", $._value)), ";"),
+		decimal_number: $ => prec.left(1, seq($.numeric, optional(seq(".", $.numeric)))),
+		hex_number: $ => /0x[0-9a-fA-F]*/,
+		binary_number: $ => /0b[01]*/,
 
-		_singleton_value: $ =>
-			seq(
-				optional(repeat(choice("!", "~", "-", "++", "--"))),
-				choice($._parenth_enclosed, $._primitive, $._identifier),
-				optional(repeat(choice($._accessor, $._func_call, $._sub_reference))),
-				optional(repeat(choice("++", "--"))),
-			),
-		_accessor: $ => seq("[", $._value, "]"),
-		_func_call: $ => seq("(", optional(seq($._value, optional(seq(",", $._value)))), ")"),
-		_sub_reference: $ => seq(".", $._identifier),
-		_value: $ => seq($._singleton_value, optional(repeat(seq($._operator, $._singleton_value)))),
-		_parenth_enclosed: $ => seq("(", $._value, ")"),
+		type_signature: $ => seq($.identifier, repeat("[]")),
+		type_cast: $ => seq("<", $.type_signature, ">"),
 
-		_type_sig: $ => seq($._identifier, optional("[]")),
+		operator: $ => choice($.logical_op, $.comparative_op, $.arithmetic_op, $.assignment_op),
 
-		_operator: $ => choice($._logical_operator, $._comparative_operator, $._arithmetic_operator, $._assignment_operator),
-		_logical_operator: $ => choice("||", "&&"),
-		_comparative_operator: $ => choice("<", ">", "==", "!=", ">=", "<="),
-		_arithmetic_operator: $ => choice("+", "-", "*", "/", "%", "&", "|", "^", "<<", ">>"),
-		_assignment_operator: $ => choice("=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "<<=", ">>="),
+		logical_op: $ => choice("||", "&&"),
+		comparative_op: $ => choice("==", "!=", ">=", "<=", ">", "<"),
+		arithmetic_op: $ => choice("+", "-", "*", "/", "%", "&", "|", "^"),
+		assignment_op: $ => choice("=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^="),
 
-		_primitive: $ => choice($._number_literal, $._char_literal, $._string_literal, $._bool_literal, $._array_literal),
-		_number_literal: $ =>
-			choice(
-				seq("0x", optional(repeat(/[0-9a-fA-F]/))),
-				seq("0b", optional(repeat(choice("0", "1")))),
-				prec.left(1, seq($._numeric, optional(seq(".", $._numeric)))),
-			),
-		_char_literal: $ => seq("'", /[^']*/, optional(repeat(seq("\\'", /[^']*/))), "'"),
-		_string_literal: $ =>
-			choice(seq('"', /[^"]*/, optional(repeat(seq('\\"', /[^"]*/))), '"'), seq("`", /[^`]*/, optional(repeat(seq("\\`", /[^`]*/))), "`")),
-		_bool_literal: $ => choice("true", "false"),
-		_array_literal: $ => seq("[", optional(seq($._value, optional(seq(",", $._value)))), "]"),
-
-		_comments: $ => token(choice(seq("//", /.*/), seq("/*", /.*/, "*/"))),
-
-		_identifier: $ => /([a-zA-Z_][0-9a-zA-Z_]*)/,
-		_numeric: $ => /([0-9][0-9_]*)/,
+		identifier: $ => /([a-zA-Z_][0-9a-zA-Z_]*)/,
+		numeric: $ => /([0-9][0-9_]*)/,
 	},
 });
