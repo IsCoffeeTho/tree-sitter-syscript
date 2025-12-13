@@ -13,17 +13,29 @@ module.exports = grammar({
 	extras: $ => [/\s/, $._comments],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $.class, $.typedef))),
 
 		shebang: $ => seq("#!", /.*/),
 
 		_comments: $ => choice(seq("//", /.*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "*/")),
 
-		function: $ => seq("fn", $.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
+		struct: $ => seq("struct", $.identifier, "{", repeat($.property), "}"),
+		class: $ => seq("class", $.identifier, "{", repeat(choice($.property, $.method)), "}"),
+		
+    property: $ => seq($.identifier, ":", $.type_signature, ";"),
+    
+    typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
+
+		function: $ => seq("fn", $.method),
+		method: $ => seq($.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
 		parameter: $ => seq(optional("..."), $.identifier, ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
 
+		declaration: $ => seq(choice($.let_declaration, $.const_declaration), ";"),
+		let_declaration: $ => seq("let", field("name", $.identifier), ":", field("type", $.type_signature), optional(seq("=", field("value", $.value)))),
+		const_declaration: $ => seq("const", field("name", $.identifier), ":", field("type", $.type_signature), "=", field("value", $.value)),
+		
 		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";")),
 
 		return_statement: $ => seq("return", optional($.value)),
@@ -35,10 +47,6 @@ module.exports = grammar({
 
 		for_loop: $ => seq("for", $._for_loop_parenthesis, $._routine),
 		_for_loop_parenthesis: $ => seq("(", optional($.let_declaration), ";", optional($.value), ";", optional($.value), ")"),
-
-		declaration: $ => seq(choice($.let_declaration, $.const_declaration), ";"),
-		let_declaration: $ => seq("let", field("name", $.identifier), ":", field("type", $.type_signature), optional(seq("=", field("value", $.value)))),
-		const_declaration: $ => seq("const", field("name", $.identifier), ":", field("type", $.type_signature), "=", field("value", $.value)),
 
 		value: $ => prec.left(1, seq($.singleton, repeat(seq($.operator, $.singleton)))),
 		value_list: $ => seq($.value, repeat(seq(",", $.value))),
