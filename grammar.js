@@ -19,17 +19,25 @@ module.exports = grammar({
 
 		comment: $ => choice($.single_line_comment, $.multi_line_comment),
 		single_line_comment: $ => token(seq("//", /.*/)),
-    multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
+		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
 
-		_class: $ => seq("class", $.identifier, optional(seq("extends", $.identifier)), "{", repeat(choice($.property, $.method)), "}"),
-		struct: $ => seq("struct", $.identifier, optional(seq("extends", $.identifier)), "{", repeat($.property), "}"),
-		
+		_class: $ =>
+			seq(
+				"class",
+				field("name", $.identifier),
+				optional(seq("extends", $.identifier)),
+				"{",
+				field("properties", repeat(choice($.property, $.method))),
+				"}",
+			),
+		struct: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("properties", repeat($.property)), "}"),
+
 		property: $ => seq($.identifier, ":", $.type_signature, ";"),
 
 		typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
 
 		function: $ => seq("fn", $.method),
-		method: $ => seq($.identifier, $.param_list, optional(seq(":", choice($.type_signature, "noreturn"))), $.code_block),
+		method: $ => seq(field("name", $.identifier), $.param_list, optional(seq(":", choice($.type_signature, "noreturn"))), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
 		parameter: $ => seq(optional("..."), $.identifier, ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
@@ -44,11 +52,20 @@ module.exports = grammar({
 		control_flow: $ => choice("break", "continue"),
 
 		_routine: $ => choice($.code_block, $.statement),
-		if_statement: $ => prec.right(1, seq("if", $.parenthesis_enclosed, $._routine, optional(seq("else", $._routine)))),
-		while_loop: $ => seq("while", $.parenthesis_enclosed, $._routine),
+		if_statement: $ => prec.right(1, seq("if", field("condition", $.parenthesis_enclosed), $._routine, optional(seq("else", $._routine)))),
+		while_loop: $ => seq("while", field("condition", $.parenthesis_enclosed), $._routine),
 
 		for_loop: $ => seq("for", $._for_loop_parenthesis, $._routine),
-		_for_loop_parenthesis: $ => seq("(", optional($.let_declaration), ";", optional($.value), ";", optional($.value), ")"),
+		_for_loop_parenthesis: $ =>
+			seq(
+				"(",
+				field("declaration", optional($.let_declaration)),
+				";",
+				field("condition", optional($.value)),
+				";",
+				field("mutation", optional($.value)),
+				")",
+			),
 
 		value: $ => prec.left(1, seq($.singleton, repeat(seq($.operator, $.singleton)))),
 		value_list: $ => seq($.value, repeat(seq(",", $.value))),
@@ -60,8 +77,7 @@ module.exports = grammar({
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
 					choice($.parenthesis_enclosed, $.primitive, $.identifier),
-					repeat(choice($.accessor, $.func_call)),
-					optional($.sub_reference),
+					repeat(choice($.accessor, $.func_call, $.sub_reference)),
 					optional(choice("++", "--")),
 				),
 			),
@@ -69,7 +85,7 @@ module.exports = grammar({
 		parenthesis_enclosed: $ => seq("(", $.value, ")"),
 		accessor: $ => seq("[", $.value, "]"),
 		func_call: $ => seq("(", optional($.value_list), ")"),
-		sub_reference: $ => prec.left(2, seq(".", $.identifier, repeat(choice($.accessor, $.func_call, $.sub_reference)))),
+		sub_reference: $ => seq(".", $.identifier),
 
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
 		array_literal: $ => seq("[", optional($.value_list), "]"),

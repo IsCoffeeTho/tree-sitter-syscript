@@ -167,9 +167,40 @@
   {
     "type": "for_loop",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "value",
+            "named": true
+          }
+        ]
+      },
+      "declaration": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "let_declaration",
+            "named": true
+          }
+        ]
+      },
+      "mutation": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "value",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -177,15 +208,7 @@
           "named": true
         },
         {
-          "type": "let_declaration",
-          "named": true
-        },
-        {
           "type": "statement",
-          "named": true
-        },
-        {
-          "type": "value",
           "named": true
         }
       ]
@@ -224,17 +247,24 @@
   {
     "type": "if_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesis_enclosed",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "parenthesis_enclosed",
           "named": true
         },
         {
@@ -288,17 +318,24 @@
   {
     "type": "method",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         },
         {
@@ -528,7 +565,32 @@
     "type": "source_file",
     "named": true,
     "root": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "properties": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "method",
+            "named": true
+          },
+          {
+            "type": "property",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -543,14 +605,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "method",
-          "named": true
-        },
-        {
-          "type": "property",
           "named": true
         },
         {
@@ -615,17 +669,34 @@
   {
     "type": "struct",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "properties": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "property",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "property",
           "named": true
         }
       ]
@@ -636,23 +707,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "accessor",
-          "named": true
-        },
-        {
-          "type": "func_call",
-          "named": true
-        },
-        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "sub_reference",
           "named": true
         }
       ]
@@ -744,17 +803,24 @@
   {
     "type": "while_loop",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesis_enclosed",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "parenthesis_enclosed",
           "named": true
         },
         {
