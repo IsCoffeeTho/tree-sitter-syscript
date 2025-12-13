@@ -86,7 +86,6 @@ module.exports = grammar({
 				),
 			),
 
-
 		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
     ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
     ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
@@ -96,7 +95,7 @@ module.exports = grammar({
 		
 		sub_reference: $ => seq(".", $.reference),
 
-		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
+		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, "this", "super"),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
 		boolean_literal: $ => choice("true", "false"),
 		char_literal: $ => seq("'", token(/([^'\n]|\\')*/), "'"),
