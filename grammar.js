@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-/// <reference types="tree-`sitter-cli/dsl" />
+/// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
 module.exports = grammar({
@@ -21,7 +21,7 @@ module.exports = grammar({
 
 		function: $ => seq("fn", $.identifier, $.param_list, optional(seq(":", $.type_signature)), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
-		parameter: $ => seq($.identifier, ":", $.type_signature),
+		parameter: $ => seq(optional("..."), $.identifier, ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
 
 		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";")),
@@ -63,11 +63,11 @@ module.exports = grammar({
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
 		boolean_literal: $ => choice("true", "false"),
-		char_literal: $ => seq("'", token(/[^']*(\\[^']*)*/), "'"),
-		string_literal: $ => seq('"', token(/[^"]*(\\[^"]*)*/), '"'),
-		number_literal: $ => choice($.decimal_number, $.hex_number, $.binary_number),
+		char_literal: $ => seq("'", token(/([^'\n]|\\')*/), "'"),
+		string_literal: $ => seq('"', token(/([^"\n]|\\")*/), '"'),
+		number_literal: $ => choice($.numeric, $.decimal_number, $.hex_number, $.binary_number),
 
-		decimal_number: $ => prec.left(1, seq($.numeric, optional(seq(".", $.numeric)))),
+		decimal_number: $ => prec.left(1, seq($.numeric, ".", $.numeric)),
 		hex_number: $ => /0x[0-9a-fA-F]*/,
 		binary_number: $ => /0b[01]*/,
 
@@ -78,7 +78,7 @@ module.exports = grammar({
 
 		logical_op: $ => choice("||", "&&"),
 		comparative_op: $ => choice("==", "!=", ">=", "<=", ">", "<"),
-		arithmetic_op: $ => choice("+", "-", "*", "/", "%", "&", "|", "^"),
+		arithmetic_op: $ => choice("+", "-", "*", "/", "%", "&", "|", "^", "<<", ">>"),
 		assignment_op: $ => choice("=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^="),
 
 		identifier: $ => /([a-zA-Z_][0-9a-zA-Z_]*)/,

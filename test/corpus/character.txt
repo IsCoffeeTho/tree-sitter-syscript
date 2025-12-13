@@ -1,0 +1,60 @@
+===
+empty char string
+===
+let _: _ = '';
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (char_literal)))))))
+===
+filled char string
+===
+let _: _ = 'c';
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (char_literal)))))))
+===
+big char string
+===
+let _: _ = 'chars';
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (char_literal)))))))
+===
+escaped char string
+===
+let _: _ = '\'';
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (char_literal)))))))

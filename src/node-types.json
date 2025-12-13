@@ -296,6 +296,10 @@
         {
           "type": "hex_number",
           "named": true
+        },
+        {
+          "type": "numeric",
+          "named": true
         }
       ]
     }
@@ -729,6 +733,10 @@
     "named": false
   },
   {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -757,6 +765,10 @@
     "named": false
   },
   {
+    "type": "<<",
+    "named": false
+  },
+  {
     "type": "<=",
     "named": false
   },
@@ -774,6 +786,10 @@
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
     "named": false
   },
   {

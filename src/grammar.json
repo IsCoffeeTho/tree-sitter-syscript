@@ -180,6 +180,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "..."
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "identifier"
         },
@@ -877,7 +889,7 @@
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "[^']*(\\\\[^']*)*"
+            "value": "([^'\\n]|\\\\')*"
           }
         },
         {
@@ -897,7 +909,7 @@
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "[^\"]*(\\\\[^\"]*)*"
+            "value": "([^\"\\n]|\\\\\")*"
           }
         },
         {
@@ -909,6 +921,10 @@
     "number_literal": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "numeric"
+        },
         {
           "type": "SYMBOL",
           "name": "decimal_number"
@@ -934,25 +950,12 @@
             "name": "numeric"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "."
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "numeric"
-                  }
-                ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "numeric"
           }
         ]
       }
@@ -1095,6 +1098,14 @@
         {
           "type": "STRING",
           "value": "^"
+        },
+        {
+          "type": "STRING",
+          "value": "<<"
+        },
+        {
+          "type": "STRING",
+          "value": ">>"
         }
       ]
     },

@@ -1,0 +1,66 @@
+===
+Zero integer
+===
+let _: _ = 0;
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (number_literal
+                    (numeric))))))))
+===
+Zero float
+===
+let _: _ = 0.0;
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (number_literal
+                  (decimal_number
+                  	(numeric)
+                    (numeric)))))))))
+===
+Zero hex
+===
+let _: _ = 0x0;
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (number_literal
+                  (hex_number))))))))
+===
+Zero binary
+===
+let _: _ = 0b0;
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (number_literal
+                  (binary_number))))))))

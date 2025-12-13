@@ -1,0 +1,45 @@
+===
+empty string
+===
+let _: _ = "";
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (string_literal)))))))
+===
+filled string
+===
+let _: _ = "value";
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (string_literal)))))))
+===
+escaped quote string
+===
+let _: _ = "escaping the \" you need to add the \\ symbol: \\\" ";
+---
+(source_file 
+    (declaration
+        (let_declaration
+        (identifier)
+        (type_signature
+            (identifier))
+        (value
+        	(singleton
+              (primitive
+                (string_literal)))))))
