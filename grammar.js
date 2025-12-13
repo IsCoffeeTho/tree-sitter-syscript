@@ -13,7 +13,7 @@ module.exports = grammar({
 	extras: $ => [/\s/, $.comment],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.comment, $.function, $.declaration, $.struct, $._class, $.typedef))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $._class, $.typedef))),
 
 		shebang: $ => seq("#!", /.*/),
 
@@ -21,9 +21,9 @@ module.exports = grammar({
 		single_line_comment: $ => token(seq("//", /.*/)),
     multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
 
-		struct: $ => seq("struct", $.identifier, "{", repeat($.property), "}"),
-		_class: $ => seq("class", $.identifier, "{", repeat(choice($.property, $.method)), "}"),
-
+		_class: $ => seq("class", $.identifier, optional(seq("extends", $.identifier)), "{", repeat(choice($.property, $.method)), "}"),
+		struct: $ => seq("struct", $.identifier, optional(seq("extends", $.identifier)), "{", repeat($.property), "}"),
+		
 		property: $ => seq($.identifier, ":", $.type_signature, ";"),
 
 		typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
@@ -82,7 +82,7 @@ module.exports = grammar({
 		hex_number: $ => /0x[0-9a-fA-F]*/,
 		binary_number: $ => /0b[01]*/,
 
-		type_signature: $ => seq($.identifier, optional("[]")),
+		type_signature: $ => choice(seq($.identifier, optional("[]")), "void"),
 		type_cast: $ => seq("<", $.type_signature, ">"),
 
 		operator: $ => choice($.logical_op, $.comparative_op, $.arithmetic_op, $.assignment_op),

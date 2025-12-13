@@ -534,10 +534,6 @@
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "declaration",
           "named": true
         },
@@ -683,7 +679,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "identifier",
@@ -953,6 +949,10 @@
     "named": false
   },
   {
+    "type": "extends",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
@@ -1010,6 +1010,10 @@
   },
   {
     "type": "typedef",
+    "named": false
+  },
+  {
+    "type": "void",
     "named": false
   },
   {
