@@ -50,4 +50,3 @@ zig-out/
 *.zip
 
 bindings
-src
