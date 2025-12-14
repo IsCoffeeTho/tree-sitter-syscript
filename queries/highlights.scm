@@ -55,6 +55,8 @@
 	(string_literal)
 ] @string
 
+(escaped_character) @string.escape
+
 (method
 	(identifier) @function)
 (reference
