@@ -85,7 +85,8 @@ module.exports = grammar({
 					optional(choice("++", "--")),
 				),
 			),
-
+			
+		constructor: $ => seq("new", $.identifier, $.func_call),
 		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
     ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
     ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
