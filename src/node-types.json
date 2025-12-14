@@ -119,6 +119,10 @@
       "required": true,
       "types": [
         {
+          "type": "documentation_comment",
+          "named": true
+        },
+        {
           "type": "multi_line_comment",
           "named": true
         },
@@ -1141,6 +1145,10 @@
   {
     "type": "continue",
     "named": false
+  },
+  {
+    "type": "documentation_comment",
+    "named": true
   },
   {
     "type": "else",

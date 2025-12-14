@@ -1,0 +1,164 @@
+===
+single line comment
+===
+// this is a single line comment
+---
+(source_file
+	(comment
+		(single_line_comment)))
+===
+code in single line comment
+===
+// let _:_;
+---
+(source_file
+	(comment
+		(single_line_comment)))
+===
+code outside single line comment
+===
+// this is a single line comment
+let _:_;
+---
+(source_file
+	(comment
+		(single_line_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))
+===
+code inside and outside single line comment
+===
+// let _:_;
+let _:_;
+---
+(source_file
+	(comment
+		(single_line_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))
+
+===
+empty multi line comment
+===
+/**/
+---
+(source_file
+	(comment
+		(multi_line_comment)))
+===
+multi line comment
+===
+/* this is a multi line comment */
+---
+(source_file
+	(comment
+		(multi_line_comment)))
+===
+code in multi line comment
+===
+/*
+	let _:_;
+*/
+---
+(source_file
+	(comment
+		(multi_line_comment)))
+===
+code outside multi line comment
+===
+/*
+	this is a multi line comment
+*/
+let _:_;
+---
+(source_file
+	(comment
+		(multi_line_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))
+===
+code inside and outside multi line comment
+===
+/*
+	let _:_;
+*/
+let _:_;
+---
+(source_file
+	(comment
+		(multi_line_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))
+
+===
+empty documentation comment
+===
+/***/
+---
+(source_file
+	(comment
+		(documentation_comment)))
+===
+documentation comment
+===
+/**
+	this is a documentation comment
+*/
+---
+(source_file
+	(comment
+		(documentation_comment)))
+===
+code in documentation comment
+===
+/**
+	let _:_;
+*/
+---
+(source_file
+	(comment
+		(documentation_comment)))
+===
+code outside documentation comment
+===
+/**
+	this is a documentation comment
+*/
+let _:_;
+---
+(source_file
+	(comment
+		(documentation_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))
+===
+code inside and outside documentation comment
+===
+/**
+	let _:_;
+*/
+let _:_;
+---
+(source_file
+	(comment
+		(documentation_comment))
+	(declaration
+		(let_declaration
+			(identifier)
+				(type_signature
+					(identifier)))))

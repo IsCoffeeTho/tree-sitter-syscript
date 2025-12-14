@@ -17,8 +17,9 @@ module.exports = grammar({
 
 		shebang: $ => seq("#!", /.*/),
 
-		comment: $ => choice($.single_line_comment, $.multi_line_comment),
+		comment: $ => choice($.single_line_comment, $.documentation_comment, $.multi_line_comment),
 		single_line_comment: $ => token(seq("//", /.*/)),
+		documentation_comment: $ => token(seq("/**", /([^/]|(\/\*))*\*/, "/")),
 		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))*\*/, "/")),
 
 		classes: $ =>

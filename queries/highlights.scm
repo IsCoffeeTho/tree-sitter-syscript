@@ -24,7 +24,21 @@
 	"super"
 ] @constant.builtin
 
-(identifier) @property
+[
+	"{"
+	"}"
+	"("
+	")"
+	"["
+	"]"
+] @puncuation.bracket
+
+(type_cast
+	"<" @puncuation.bracket
+	(type_signature)
+	">" @puncuation.bracket)
+
+(identifier) @variable
 
 (comment) @comment
 
@@ -34,24 +48,37 @@
 (shebang) @comment
 
 (boolean_literal) @boolean
+(number_literal) @number
 (char_literal) @string
 (string_literal) @string
-(number_literal) @number
+
+(string_literal
+	"\\" @string.escaped)
 
 (method
 	(identifier) @function)
-
 (reference
 	(identifier) @function
 	(func_call))
-
 (reference
-	(identifier) @property
+	(identifier) @variable
 	(accessor)
 	(func_call))
+(constructor
+	(identifier) @type)
+
+(operator) @operator
 
 (let_declaration (identifier) @variable)
-(const_declaration (identifier) @variable.constant)
+(const_declaration (identifier) @constant)
+
+(property
+	(identifier) @property)
+
+(structs
+	(identifier) @type)
+(classes
+	(identifier) @type)
 
 (type_signature) @type
 (type_signature (identifier) @type) @type
