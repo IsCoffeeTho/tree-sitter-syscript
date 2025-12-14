@@ -41,6 +41,7 @@
 (identifier) @variable
 
 (comment) @comment
+(documentation_comment) @comment.doc
 
 (const_declaration
 	(identifier) @constant)
@@ -49,11 +50,10 @@
 
 (boolean_literal) @boolean
 (number_literal) @number
-(char_literal) @string
-(string_literal) @string
-
-(string_literal
-	"\\" @string.escaped)
+[
+	(char_literal)
+	(string_literal)
+] @string
 
 (method
 	(identifier) @function)

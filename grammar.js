@@ -97,9 +97,29 @@ module.exports = grammar({
 		builtin_literal: $ => choice("this", "super", "null"),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
 		boolean_literal: $ => choice("true", "false"),
-		char_literal: $ => seq("'", token(/([^'\n]|\\')*/), "'"),
-		string_literal: $ => seq('"', token(/([^"\n]|\\")*/), '"'),
 		number_literal: $ => choice($.numeric, $.decimal_number, $.hex_number, $.binary_number),
+		
+		string_literal: $ => seq('"', repeat(choice(
+			alias(/[^"\\\r\n]+/, "string_fragment"),
+			$.escaped_character
+		)), '"'),
+		
+		char_literal: $ => seq("'", repeat(choice(
+			alias(/[^'\\\r\n]+/, "string_fragment"),
+			$.escaped_character
+		)), "'"),
+		
+		escaped_character: $ => token(seq(
+			"\\",
+			choice(
+				/[^xuU0-7]/,
+				/[0-7]{1,3}/,
+				/x[0-9a-fA-F]{2}/,
+				/u[0-9a-fA-F]{4}/,
+				/U[0-9a-fA-F]{8}/,
+				/\r?\n/,
+			)
+		)),
 
 		decimal_number: $ => prec.left(1, seq($.numeric, ".", $.numeric)),
 		hex_number: $ => /0x[0-9a-fA-F]*/,

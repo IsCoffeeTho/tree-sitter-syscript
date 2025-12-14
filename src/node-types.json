@@ -52,7 +52,17 @@
   {
     "type": "char_literal",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escaped_character",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "classes",
@@ -804,7 +814,17 @@
   {
     "type": "string_literal",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escaped_character",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "structs",
@@ -1155,6 +1175,10 @@
     "named": false
   },
   {
+    "type": "escaped_character",
+    "named": true
+  },
+  {
     "type": "extends",
     "named": false
   },
@@ -1213,6 +1237,10 @@
   {
     "type": "single_line_comment",
     "named": true
+  },
+  {
+    "type": "string_fragment",
+    "named": false
   },
   {
     "type": "struct",
