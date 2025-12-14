@@ -77,7 +77,7 @@ module.exports = grammar({
 				seq(
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
-					choice($.ref_parenthesis_enclosed, $.ref_primitive, $.reference),
+					choice($.ref_parenthesis_enclosed, $.ref_primitive, $.reference, $.constructor),
 					optional(choice("++", "--")),
 				),
 			),

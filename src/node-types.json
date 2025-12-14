@@ -131,6 +131,25 @@
     }
   },
   {
+    "type": "constructor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "func_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "control_flow",
     "named": true,
     "fields": {}
@@ -620,6 +639,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "constructor",
+          "named": true
+        },
         {
           "type": "ref_parenthesis_enclosed",
           "named": true
@@ -1127,6 +1150,10 @@
   {
     "type": "multi_line_comment",
     "named": true
+  },
+  {
+    "type": "new",
+    "named": false
   },
   {
     "type": "noreturn",
