@@ -77,23 +77,19 @@ module.exports = grammar({
 				seq(
 					optional($.type_cast),
 					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
-					choice(
-   			    $.ref_parenthesis_enclosed,
-   					$.ref_primitive,
-						$.reference
-					),
+					choice($.ref_parenthesis_enclosed, $.ref_primitive, $.reference),
 					optional(choice("++", "--")),
 				),
 			),
-			
+
 		constructor: $ => seq("new", $.identifier, $.func_call),
 		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
-    ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
-    ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
-		
+		ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
+		ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
+
 		accessor: $ => seq("[", $.value, "]"),
 		func_call: $ => seq("(", optional($.value_list), ")"),
-		
+
 		sub_reference: $ => seq(".", $.reference),
 
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, $.builtin_literal),

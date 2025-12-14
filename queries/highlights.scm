@@ -13,6 +13,7 @@
 	"struct"
 	"typedef"
 	"extends"
+	"new"
 ] @keyword
 
 [
@@ -22,7 +23,6 @@
 	"this"
 	"super"
 ] @constant.builtin
-
 
 (identifier) @property
 
