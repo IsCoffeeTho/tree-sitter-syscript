@@ -19,7 +19,7 @@ module.exports = grammar({
 
 		comment: $ => choice($.single_line_comment, $.multi_line_comment),
 		single_line_comment: $ => token(seq("//", /.*/)),
-		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
+		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))*\*/, "/")),
 
 		classes: $ =>
 			seq(
