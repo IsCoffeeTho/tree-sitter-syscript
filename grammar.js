@@ -100,24 +100,24 @@ module.exports = grammar({
 		number_literal: $ => choice($.numeric, $.decimal_number, $.hex_number, $.binary_number),
 		
 		string_literal: $ => seq('"', repeat(choice(
-			alias(/[^"\\\r\n]+/, "string_fragment"),
+			/[^"\\\r\n]+/,
 			$.escaped_character
 		)), '"'),
 		
 		char_literal: $ => seq("'", repeat(choice(
-			alias(/[^'\\\r\n]+/, "string_fragment"),
+			/[^'\\\r\n]+/,
 			$.escaped_character
 		)), "'"),
 		
 		escaped_character: $ => token(seq(
 			"\\",
 			choice(
+				/\r?\n/,
 				/[^xuU0-7]/,
 				/[0-7]{1,3}/,
 				/x[0-9a-fA-F]{2}/,
 				/u[0-9a-fA-F]{4}/,
 				/U[0-9a-fA-F]{8}/,
-				/\r?\n/,
 			)
 		)),
 

@@ -1239,10 +1239,6 @@
     "named": true
   },
   {
-    "type": "string_fragment",
-    "named": false
-  },
-  {
     "type": "struct",
     "named": false
   },

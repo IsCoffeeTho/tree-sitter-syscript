@@ -214,9 +214,9 @@ static const char * const ts_symbol_names[] = {
   [anon_sym_true] = "true",
   [anon_sym_false] = "false",
   [anon_sym_DQUOTE] = "\"",
-  [aux_sym_string_literal_token1] = "string_fragment",
+  [aux_sym_string_literal_token1] = "string_literal_token1",
   [anon_sym_SQUOTE] = "'",
-  [aux_sym_char_literal_token1] = "string_fragment",
+  [aux_sym_char_literal_token1] = "char_literal_token1",
   [sym_escaped_character] = "escaped_character",
   [sym_hex_number] = "hex_number",
   [sym_binary_number] = "binary_number",
@@ -358,7 +358,7 @@ static const TSSymbol ts_symbol_map[] = {
   [anon_sym_DQUOTE] = anon_sym_DQUOTE,
   [aux_sym_string_literal_token1] = aux_sym_string_literal_token1,
   [anon_sym_SQUOTE] = anon_sym_SQUOTE,
-  [aux_sym_char_literal_token1] = aux_sym_string_literal_token1,
+  [aux_sym_char_literal_token1] = aux_sym_char_literal_token1,
   [sym_escaped_character] = sym_escaped_character,
   [sym_hex_number] = sym_hex_number,
   [sym_binary_number] = sym_binary_number,
@@ -634,7 +634,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [aux_sym_string_literal_token1] = {
-    .visible = true,
+    .visible = false,
     .named = false,
   },
   [anon_sym_SQUOTE] = {
@@ -642,7 +642,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [aux_sym_char_literal_token1] = {
-    .visible = true,
+    .visible = false,
     .named = false,
   },
   [sym_escaped_character] = {
