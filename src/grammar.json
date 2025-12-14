@@ -1180,11 +1180,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "self_ref_literal"
+          "name": "builtin_literal"
         }
       ]
     },
-    "self_ref_literal": {
+    "builtin_literal": {
       "type": "CHOICE",
       "members": [
         {
@@ -1194,6 +1194,10 @@
         {
           "type": "STRING",
           "value": "super"
+        },
+        {
+          "type": "STRING",
+          "value": "null"
         }
       ]
     },

@@ -45,6 +45,11 @@
     "fields": {}
   },
   {
+    "type": "builtin_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "char_literal",
     "named": true,
     "fields": {}
@@ -469,15 +474,15 @@
           "named": true
         },
         {
+          "type": "builtin_literal",
+          "named": true
+        },
+        {
           "type": "char_literal",
           "named": true
         },
         {
           "type": "number_literal",
-          "named": true
-        },
-        {
-          "type": "self_ref_literal",
           "named": true
         },
         {
@@ -601,11 +606,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "self_ref_literal",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "shebang",
@@ -1130,6 +1130,10 @@
   },
   {
     "type": "noreturn",
+    "named": false
+  },
+  {
+    "type": "null",
     "named": false
   },
   {
