@@ -55,6 +55,46 @@
     "fields": {}
   },
   {
+    "type": "classes",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "properties": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "method",
+            "named": true
+          },
+          {
+            "type": "property",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "code_block",
     "named": true,
     "fields": {},
@@ -191,6 +231,25 @@
   {
     "type": "for_loop",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "for_loop_def",
+          "named": true
+        },
+        {
+          "type": "routine",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_loop_def",
+    "named": true,
     "fields": {
       "condition": {
         "multiple": false,
@@ -222,20 +281,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -288,11 +333,7 @@
       "required": true,
       "types": [
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "statement",
+          "type": "routine",
           "named": true
         }
       ]
@@ -627,6 +668,25 @@
     }
   },
   {
+    "type": "routine",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "code_block",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "shebang",
     "named": true,
     "fields": {}
@@ -666,36 +726,15 @@
     "type": "source_file",
     "named": true,
     "root": true,
-    "fields": {
-      "name": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "properties": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "method",
-            "named": true
-          },
-          {
-            "type": "property",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "classes",
+          "named": true
+        },
         {
           "type": "declaration",
           "named": true
@@ -705,15 +744,11 @@
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
           "type": "shebang",
           "named": true
         },
         {
-          "type": "struct",
+          "type": "structs",
           "named": true
         },
         {
@@ -768,7 +803,7 @@
     "fields": {}
   },
   {
-    "type": "struct",
+    "type": "structs",
     "named": true,
     "fields": {
       "name": {
@@ -921,11 +956,7 @@
       "required": true,
       "types": [
         {
-          "type": "code_block",
-          "named": true
-        },
-        {
-          "type": "statement",
+          "type": "routine",
           "named": true
         }
       ]

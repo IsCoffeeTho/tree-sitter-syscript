@@ -32,11 +32,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "struct"
+                "name": "structs"
               },
               {
                 "type": "SYMBOL",
-                "name": "_class"
+                "name": "classes"
               },
               {
                 "type": "SYMBOL",
@@ -109,7 +109,7 @@
         ]
       }
     },
-    "_class": {
+    "classes": {
       "type": "SEQ",
       "members": [
         {
@@ -175,7 +175,7 @@
         }
       ]
     },
-    "struct": {
+    "structs": {
       "type": "SEQ",
       "members": [
         {
@@ -640,7 +640,7 @@
         }
       ]
     },
-    "_routine": {
+    "routine": {
       "type": "CHOICE",
       "members": [
         {
@@ -673,7 +673,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_routine"
+            "name": "routine"
           },
           {
             "type": "CHOICE",
@@ -687,7 +687,7 @@
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "_routine"
+                    "name": "routine"
                   }
                 ]
               },
@@ -716,7 +716,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_routine"
+          "name": "routine"
         }
       ]
     },
@@ -729,15 +729,15 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_for_loop_parenthesis"
+          "name": "for_loop_def"
         },
         {
           "type": "SYMBOL",
-          "name": "_routine"
+          "name": "routine"
         }
       ]
     },
-    "_for_loop_parenthesis": {
+    "for_loop_def": {
       "type": "SEQ",
       "members": [
         {

@@ -13,7 +13,7 @@ module.exports = grammar({
 	extras: $ => [/\s/, $.comment],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.struct, $._class, $.typedef))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.structs, $.classes, $.typedef))),
 
 		shebang: $ => seq("#!", /.*/),
 
@@ -21,7 +21,7 @@ module.exports = grammar({
 		single_line_comment: $ => token(seq("//", /.*/)),
 		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))+\*/, "/")),
 
-		_class: $ =>
+		classes: $ =>
 			seq(
 				"class",
 				field("name", $.identifier),
@@ -30,7 +30,7 @@ module.exports = grammar({
 				field("properties", repeat(choice($.property, $.method))),
 				"}",
 			),
-		struct: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("properties", repeat($.property)), "}"),
+		structs: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("properties", repeat($.property)), "}"),
 
 		property: $ => seq($.identifier, ":", $.type_signature, ";"),
 
@@ -51,12 +51,12 @@ module.exports = grammar({
 		return_statement: $ => seq("return", optional($.value)),
 		control_flow: $ => choice("break", "continue"),
 
-		_routine: $ => choice($.code_block, $.statement),
-		if_statement: $ => prec.right(1, seq("if", field("condition", $.parenthesis_enclosed), $._routine, optional(seq("else", $._routine)))),
-		while_loop: $ => seq("while", field("condition", $.parenthesis_enclosed), $._routine),
+		routine: $ => choice($.code_block, $.statement),
+		if_statement: $ => prec.right(1, seq("if", field("condition", $.parenthesis_enclosed), $.routine, optional(seq("else", $.routine)))),
+		while_loop: $ => seq("while", field("condition", $.parenthesis_enclosed), $.routine),
 
-		for_loop: $ => seq("for", $._for_loop_parenthesis, $._routine),
-		_for_loop_parenthesis: $ =>
+		for_loop: $ => seq("for", $.for_loop_def, $.routine),
+		for_loop_def: $ =>
 			seq(
 				"(",
 				field("declaration", optional($.let_declaration)),
