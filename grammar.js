@@ -28,12 +28,14 @@ module.exports = grammar({
 				field("name", $.identifier),
 				optional(seq("extends", $.identifier)),
 				"{",
-				field("properties", repeat(choice($.property, $.method))),
+				field("fields", repeat(choice($.field, $.method))),
 				"}",
 			),
-		structs: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("properties", repeat($.property)), "}"),
+		structs: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat($.field)), "}"),
 
-		property: $ => seq($.identifier, ":", $.type_signature, ";"),
+		field: $ => seq($.identifier, ":", $.type_signature, ";"),
+		property: $ => seq($.identifier, ":", $.value),
+		property_list: $ => seq($.property, repeat(seq(",", $.property))),
 
 		typedef: $ => seq("typedef", $.identifier, "=", $.type_signature, ";"),
 
@@ -96,6 +98,7 @@ module.exports = grammar({
 		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, $.builtin_literal),
 		builtin_literal: $ => choice("this", "super", "null"),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
+		struct_literal: $ => seq("{", optional($.property_list), "}"),
 		boolean_literal: $ => choice("true", "false"),
 		number_literal: $ => choice($.numeric, $.decimal_number, $.hex_number, $.binary_number),
 		

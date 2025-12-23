@@ -74,6 +74,8 @@
 (let_declaration (identifier) @variable)
 (const_declaration (identifier) @constant)
 
+(field
+	(identifier) @property)
 (property
 	(identifier) @property)
 

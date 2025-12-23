@@ -175,7 +175,7 @@
         },
         {
           "type": "FIELD",
-          "name": "properties",
+          "name": "fields",
           "content": {
             "type": "REPEAT",
             "content": {
@@ -183,7 +183,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "property"
+                  "name": "field"
                 },
                 {
                   "type": "SYMBOL",
@@ -241,12 +241,12 @@
         },
         {
           "type": "FIELD",
-          "name": "properties",
+          "name": "fields",
           "content": {
             "type": "REPEAT",
             "content": {
               "type": "SYMBOL",
-              "name": "property"
+              "name": "field"
             }
           }
         },
@@ -256,7 +256,7 @@
         }
       ]
     },
-    "property": {
+    "field": {
       "type": "SEQ",
       "members": [
         {
@@ -274,6 +274,48 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "property": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "value"
+        }
+      ]
+    },
+    "property_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "property"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "property"
+              }
+            ]
+          }
         }
       ]
     },
@@ -1268,6 +1310,31 @@
         {
           "type": "STRING",
           "value": "]"
+        }
+      ]
+    },
+    "struct_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "property_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },

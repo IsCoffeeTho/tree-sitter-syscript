@@ -68,26 +68,26 @@
     "type": "classes",
     "named": true,
     "fields": {
+      "fields": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "field",
+            "named": true
+          },
+          {
+            "type": "method",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "properties": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "method",
-            "named": true
-          },
-          {
-            "type": "property",
             "named": true
           }
         ]
@@ -237,6 +237,25 @@
         },
         {
           "type": "let_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_signature",
           "named": true
         }
       ]
@@ -567,25 +586,6 @@
     }
   },
   {
-    "type": "property",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type_signature",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "ref_parenthesis_enclosed",
     "named": true,
     "fields": {},
@@ -830,22 +830,22 @@
     "type": "structs",
     "named": true,
     "fields": {
+      "fields": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "field",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "properties": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "property",
             "named": true
           }
         ]
