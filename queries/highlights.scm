@@ -66,8 +66,10 @@
 	(identifier) @variable
 	(accessor)
 	(func_call))
-(constructor
-	(identifier) @type)
+(singleton
+	"new"
+	(reference
+		(identifier) @type))
 
 (operator) @operator
 

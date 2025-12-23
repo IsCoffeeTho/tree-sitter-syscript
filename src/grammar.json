@@ -994,6 +994,10 @@
                   {
                     "type": "STRING",
                     "value": "--"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "new"
                   }
                 ]
               },
@@ -1016,10 +1020,6 @@
               {
                 "type": "SYMBOL",
                 "name": "reference"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "constructor"
               }
             ]
           },
@@ -1046,23 +1046,6 @@
           }
         ]
       }
-    },
-    "constructor": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "new"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "func_call"
-        }
-      ]
     },
     "reference": {
       "type": "PREC_LEFT",
@@ -1245,6 +1228,10 @@
     "primitive": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "struct_literal"
+        },
         {
           "type": "SYMBOL",
           "name": "array_literal"
@@ -1715,7 +1702,12 @@
       "name": "comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "code_block",
+      "struct_literal"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

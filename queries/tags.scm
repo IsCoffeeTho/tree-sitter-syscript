@@ -6,9 +6,11 @@
 (structs
 	name: (identifier) @name) @definition.interface
 
-
 (reference
 	((identifier) @name
 		(#is? function))) @reference.call
-(constructor
-	(identifier) @name) @reference.implementation
+
+(singleton
+	"new"
+	(reference
+		(identifier) @name)) @reference.implementation

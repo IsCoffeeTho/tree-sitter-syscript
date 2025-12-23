@@ -12,6 +12,10 @@ module.exports = grammar({
 
 	extras: $ => [/\s/, $.comment],
 
+	conflicts: $ => [
+		[$.code_block, $.struct_literal]
+	],
+
 	rules: {
 		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.structs, $.classes, $.typedef))),
 
@@ -23,14 +27,7 @@ module.exports = grammar({
 		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))*\*/, "/")),
 
 		classes: $ =>
-			seq(
-				"class",
-				field("name", $.identifier),
-				optional(seq("extends", $.identifier)),
-				"{",
-				field("fields", repeat(choice($.field, $.method))),
-				"}",
-			),
+			seq("class", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat(choice($.field, $.method))), "}"),
 		structs: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat($.field)), "}"),
 
 		field: $ => seq($.identifier, ":", $.type_signature, ";"),
@@ -79,13 +76,12 @@ module.exports = grammar({
 				1,
 				seq(
 					optional($.type_cast),
-					optional(choice(repeat1(choice("!", "-", "~")), "++", "--")),
-					choice($.ref_parenthesis_enclosed, $.ref_primitive, $.reference, $.constructor),
+					optional(choice("++", "--", "new", repeat1(choice("!", "-", "~")))),
+					choice($.ref_parenthesis_enclosed, $.ref_primitive, $.reference),
 					optional(choice("++", "--")),
 				),
 			),
 
-		constructor: $ => seq("new", $.identifier, $.func_call),
 		reference: $ => prec.left(1, seq($.identifier, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
 		ref_parenthesis_enclosed: $ => prec.left(1, seq($.parenthesis_enclosed, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
 		ref_primitive: $ => prec.left(1, seq($.primitive, repeat(choice($.accessor, $.func_call)), optional($.sub_reference))),
@@ -95,34 +91,18 @@ module.exports = grammar({
 
 		sub_reference: $ => seq(".", $.reference),
 
-		primitive: $ => choice($.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, $.builtin_literal),
+		primitive: $ => choice($.struct_literal, $.array_literal, $.boolean_literal, $.char_literal, $.number_literal, $.string_literal, $.builtin_literal),
 		builtin_literal: $ => choice("this", "super", "null"),
 		array_literal: $ => seq("[", optional($.value_list), "]"),
 		struct_literal: $ => seq("{", optional($.property_list), "}"),
 		boolean_literal: $ => choice("true", "false"),
 		number_literal: $ => choice($.numeric, $.decimal_number, $.hex_number, $.binary_number),
-		
-		string_literal: $ => seq('"', repeat(choice(
-			/[^"\\\r\n]+/,
-			$.escaped_character
-		)), '"'),
-		
-		char_literal: $ => seq("'", repeat(choice(
-			/[^'\\\r\n]+/,
-			$.escaped_character
-		)), "'"),
-		
-		escaped_character: $ => token(seq(
-			"\\",
-			choice(
-				/\r?\n/,
-				/[^xuU0-7]/,
-				/[0-7]{1,3}/,
-				/x[0-9a-fA-F]{2}/,
-				/u[0-9a-fA-F]{4}/,
-				/U[0-9a-fA-F]{8}/,
-			)
-		)),
+
+		string_literal: $ => seq('"', repeat(choice(/[^"\\\r\n]+/, $.escaped_character)), '"'),
+
+		char_literal: $ => seq("'", repeat(choice(/[^'\\\r\n]+/, $.escaped_character)), "'"),
+
+		escaped_character: $ => token(seq("\\", choice(/\r?\n/, /[^xuU0-7]/, /[0-7]{1,3}/, /x[0-9a-fA-F]{2}/, /u[0-9a-fA-F]{4}/, /U[0-9a-fA-F]{8}/))),
 
 		decimal_number: $ => prec.left(1, seq($.numeric, ".", $.numeric)),
 		hex_number: $ => /0x[0-9a-fA-F]*/,
