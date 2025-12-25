@@ -17,14 +17,14 @@ module.exports = grammar({
 	],
 
 	rules: {
-		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.structs, $.classes, $.typedef))),
+		source_file: $ => seq(optional($.shebang), repeat(choice($.function, $.declaration, $.structs, $.classes, $.typedef, $.comment))),
 
 		shebang: $ => seq("#!", /.*/),
 
 		comment: $ => choice($.single_line_comment, $.documentation_comment, $.multi_line_comment),
 		single_line_comment: $ => token(seq("//", /.*/)),
-		documentation_comment: $ => token(seq("/**", /([^/]|(\/\*))*\*/, "/")),
-		multi_line_comment: $ => token(seq("/*", /([^/]|(\/\*))*\*/, "/")),
+		documentation_comment: $ => token(seq("/**", /(.*)*(\n.*)*/, "*/")),
+		multi_line_comment: $ => token(seq("/*", /(.*)*(\n.*)*/, "*/")),
 
 		classes: $ =>
 			seq("class", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat(choice($.field, $.method))), "}"),

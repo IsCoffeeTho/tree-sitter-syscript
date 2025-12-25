@@ -765,6 +765,10 @@
           "named": true
         },
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "declaration",
           "named": true
         },

@@ -41,6 +41,10 @@
               {
                 "type": "SYMBOL",
                 "name": "typedef"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "comment"
               }
             ]
           }
@@ -104,11 +108,11 @@
           },
           {
             "type": "PATTERN",
-            "value": "([^/]|(\\/\\*))*\\*"
+            "value": "(.*)*(\\n.*)*"
           },
           {
             "type": "STRING",
-            "value": "/"
+            "value": "*/"
           }
         ]
       }
@@ -124,11 +128,11 @@
           },
           {
             "type": "PATTERN",
-            "value": "([^/]|(\\/\\*))*\\*"
+            "value": "(.*)*(\\n.*)*"
           },
           {
             "type": "STRING",
-            "value": "/"
+            "value": "*/"
           }
         ]
       }
@@ -968,6 +972,18 @@
                 "type": "CHOICE",
                 "members": [
                   {
+                    "type": "STRING",
+                    "value": "++"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "--"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "new"
+                  },
+                  {
                     "type": "REPEAT1",
                     "content": {
                       "type": "CHOICE",
@@ -986,18 +1002,6 @@
                         }
                       ]
                     }
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "++"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "--"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "new"
                   }
                 ]
               },
