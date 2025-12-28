@@ -42,20 +42,20 @@ module.exports = grammar({
 		function: $ => seq("fn", $.method),
 		method: $ => seq(field("name", $.identifier), $.param_list, optional(seq(":", choice($.type_signature, "noreturn"))), $.code_block),
 		param_list: $ => seq("(", optional(seq($.parameter, optional(seq(",", $.parameter)))), ")"),
-		parameter: $ => seq(optional("..."), $.identifier, ":", $.type_signature),
+		parameter: $ => seq(optional("..."), field("name", $.identifier), ":", $.type_signature),
 		code_block: $ => seq("{", repeat($.statement), "}"),
 
 		declaration: $ => seq(choice($.let_declaration, $.const_declaration), ";"),
 		let_declaration: $ => seq("let", field("name", $.identifier), ":", field("type", $.type_signature), optional(seq("=", field("value", $.value)))),
 		const_declaration: $ => seq("const", field("name", $.identifier), ":", field("type", $.type_signature), "=", field("value", $.value)),
 
-		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";")),
+		statement: $ => choice($.if_statement, $.while_loop, $.for_loop, $.declaration, seq(choice($.return_statement, $.control_flow, $.value), ";"), ";"),
 
 		return_statement: $ => seq("return", optional($.value)),
 		control_flow: $ => choice("break", "continue"),
 
 		routine: $ => choice($.code_block, $.statement),
-		if_statement: $ => prec.right(1, seq("if", field("condition", $.parenthesis_enclosed), $.routine, optional(seq("else", $.routine)))),
+		if_statement: $ => prec.right(1, seq("if", field("condition", $.parenthesis_enclosed), field("branch", $.routine), optional(seq("else", field("else_branch", $.routine))))),
 		while_loop: $ => seq("while", field("condition", $.parenthesis_enclosed), $.routine),
 
 		for_loop: $ => seq("for", $.for_loop_def, $.routine),
