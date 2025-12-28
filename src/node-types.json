@@ -129,7 +129,7 @@
       "required": true,
       "types": [
         {
-          "type": "documentation_comment",
+          "type": "doc_comment",
           "named": true
         },
         {
@@ -1201,7 +1201,7 @@
     "named": false
   },
   {
-    "type": "documentation_comment",
+    "type": "doc_comment",
     "named": true
   },
   {

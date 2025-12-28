@@ -73,11 +73,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "documentation_comment"
+          "name": "multi_line_comment"
         },
         {
           "type": "SYMBOL",
-          "name": "multi_line_comment"
+          "name": "doc_comment"
         }
       ]
     },
@@ -97,7 +97,7 @@
         ]
       }
     },
-    "documentation_comment": {
+    "doc_comment": {
       "type": "TOKEN",
       "content": {
         "type": "SEQ",
@@ -108,11 +108,11 @@
           },
           {
             "type": "PATTERN",
-            "value": "(.*)*(\\n.*)*"
+            "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
           },
           {
             "type": "STRING",
-            "value": "*/"
+            "value": "/"
           }
         ]
       }
@@ -128,11 +128,11 @@
           },
           {
             "type": "PATTERN",
-            "value": "(.*)*(\\n.*)*"
+            "value": "[^*]*\\*+([^\\/*][^*]*\\*+)*"
           },
           {
             "type": "STRING",
-            "value": "*/"
+            "value": "/"
           }
         ]
       }

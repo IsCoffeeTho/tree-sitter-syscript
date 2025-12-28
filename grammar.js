@@ -7,10 +7,12 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const MULTILINE_COMMENT_REGEX = /[^*]*\*+([^\/*][^*]*\*+)*/;
+
 module.exports = grammar({
 	name: "syscript",
 
-	extras: $ => [/\s/, $.comment],
+	extras: $ => [/\s/, $.comment],	
 
 	conflicts: $ => [
 		[$.code_block, $.struct_literal]
@@ -21,11 +23,12 @@ module.exports = grammar({
 
 		shebang: $ => seq("#!", /.*/),
 
-		comment: $ => choice($.single_line_comment, $.documentation_comment, $.multi_line_comment),
+		comment: $ => choice($.single_line_comment, $.multi_line_comment, $.doc_comment),
 		single_line_comment: $ => token(seq("//", /.*/)),
-		documentation_comment: $ => token(seq("/**", /(.*)*(\n.*)*/, "*/")),
-		multi_line_comment: $ => token(seq("/*", /(.*)*(\n.*)*/, "*/")),
-
+		doc_comment: $ => token(seq("/**", MULTILINE_COMMENT_REGEX, "/")), 
+		multi_line_comment: $ => token(seq("/*", MULTILINE_COMMENT_REGEX, "/")), 
+		
+		
 		classes: $ =>
 			seq("class", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat(choice($.field, $.method))), "}"),
 		structs: $ => seq("struct", field("name", $.identifier), optional(seq("extends", $.identifier)), "{", field("fields", repeat($.field)), "}"),

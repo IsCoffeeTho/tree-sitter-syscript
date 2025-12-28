@@ -41,7 +41,7 @@
 (identifier) @variable
 
 (comment) @comment
-(documentation_comment) @comment.doc
+(doc_comment) @comment.doc
 
 (const_declaration
 	(identifier) @constant)
